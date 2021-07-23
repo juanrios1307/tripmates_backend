@@ -9,12 +9,12 @@ route.all('/', function(req, res, next) {
     next()
 });
 
-route.post('/trip/',protectedRoutes.verifyToken,controller.create)
-route.put('/trip/',protectedRoutes.verifyToken,controller.edit)
-route.delete('/trip/',protectedRoutes.verifyToken,controller.delete)
-route.get('/trip/mines/',protectedRoutes.verifyToken,controller.seeMyTrips)
-route.get('/trip/especific/',protectedRoutes.verifyToken,controller.seeEspecificTrip)
-route.get('/trip/',protectedRoutes.verifyToken,controller.seeOtherTrips)
+route.post('/',protectedRoutes.verifyToken,controller.create)
+route.put('/',protectedRoutes.verifyToken,controller.edit)
+route.delete('/',protectedRoutes.verifyToken,controller.delete)
+route.get('/mines/',protectedRoutes.verifyToken,controller.seeMyTrips)
+route.get('/especific/',protectedRoutes.verifyToken,controller.seeEspecificTrip)
+route.get('/',protectedRoutes.verifyToken,controller.seeOtherTrips)
 
 
 module.exports =route

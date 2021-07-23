@@ -9,11 +9,11 @@ route.all('/', function(req, res, next) {
     next()
 });
 
-route.post('/rate/',protectedRoutes.verifyToken,controller.create)
-route.put('/rate/',protectedRoutes.verifyToken,controller.edit)
-route.put('/rate/approve/',protectedRoutes.verifyToken,controller.approve)
-route.get('/rate/mine/',protectedRoutes.verifyToken,controller.readMyRates)
-route.get('/rate/',protectedRoutes.verifyToken,controller.readOtherRates)
+route.post('/',protectedRoutes.verifyToken,controller.create)
+route.put('/',protectedRoutes.verifyToken,controller.edit)
+route.put('/approve/',protectedRoutes.verifyToken,controller.approve)
+route.get('/mine/',protectedRoutes.verifyToken,controller.readMyRates)
+route.get('/',protectedRoutes.verifyToken,controller.readOtherRates)
 
 
 module.exports =route

@@ -9,10 +9,10 @@ route.all('/', function(req, res, next) {
     next()
 });
 
-route.post('/chat/',protectedRoutes.verifyToken,controller.create)
-route.put('/chat/',protectedRoutes.verifyToken,controller.addMessage)
-route.get('/chat/read/',protectedRoutes.verifyToken,controller.readMessage)
-route.get('/chat/see/',protectedRoutes.verifyToken,controller.seeChats)
-route.get('/chat/',protectedRoutes.verifyToken,controller.seeEspecificChat)
+route.post('/',protectedRoutes.verifyToken,controller.create)
+route.put('/',protectedRoutes.verifyToken,controller.addMessage)
+route.get('/read/',protectedRoutes.verifyToken,controller.readMessage)
+route.get('/see/',protectedRoutes.verifyToken,controller.seeChats)
+route.get('/',protectedRoutes.verifyToken,controller.seeEspecificChat)
 
 module.exports =route

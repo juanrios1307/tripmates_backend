@@ -9,11 +9,11 @@ route.all('/', function(req, res, next) {
     next()
 });
 
-route.post('/user/',controller.signIn)
-route.post('/user/',controller.logIn)
-route.put('/user/',protectedRoutes.verifyToken,controller.edit)
-route.delete('/user/',protectedRoutes.verifyToken,controller.delete)
-route.get('/user/mine/',protectedRoutes.verifyToken,controller.seeMyProfile)
-route.get('/user/',protectedRoutes.verifyToken,controller.seeOtherProfile)
+route.post('/',controller.signIn)
+route.post('/login',controller.logIn)
+route.put('/',protectedRoutes.verifyToken,controller.edit)
+route.delete('/',protectedRoutes.verifyToken,controller.delete)
+route.get('/mine/',protectedRoutes.verifyToken,controller.seeMyProfile)
+route.get('/',protectedRoutes.verifyToken,controller.seeOtherProfile)
 
 module.exports =route
