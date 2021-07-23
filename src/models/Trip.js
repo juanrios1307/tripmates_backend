@@ -8,6 +8,7 @@ const Trip = mongoose.model('trips',{
     to : {type:String, required:true},
     beginDate:  {type: Date, default: Date.now},
     finishDate:  {type:String, required:true},
+    Interests:[{type:String}]
 })
 
 module.exports = Trip
