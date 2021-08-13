@@ -14,6 +14,7 @@ route.post('/login',controller.logIn)
 route.put('/',protectedRoutes.verifyToken,controller.edit)
 route.delete('/',protectedRoutes.verifyToken,controller.delete)
 route.get('/mine/',protectedRoutes.verifyToken,controller.seeMyProfile)
-route.get('/',protectedRoutes.verifyToken,controller.seeOtherProfile)
+route.get('/profile/',protectedRoutes.verifyToken,controller.seeOtherProfile)
+route.get('/',protectedRoutes.verifyToken,controller.seeProfiles)
 
 module.exports =route

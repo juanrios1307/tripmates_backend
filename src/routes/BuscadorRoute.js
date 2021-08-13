@@ -20,4 +20,7 @@ route.get('/map/filterDate/',protectedRoutes.verifyToken,controller.filterMapByD
 route.get('/map/filterInterest/',protectedRoutes.verifyToken,controller.filterMapByInterests)
 route.get('/map/data/',protectedRoutes.verifyToken,controller.seeDataInMap)
 
+route.get('/searchTrips/',controller.searchTrips)
+route.get('/searchUsers/',controller.searchUsers)
+
 module.exports =route
