@@ -118,4 +118,17 @@ Controller.seeOtherProfile = async(req,res)=>{
 
 }
 
+Controller.seeProfiles = async(req,res) =>{
+
+    User.find({}, function (err, users) {
+        if (err) {
+            // Devolvemos el código HTTP 404, de producto no encontrado por su id.
+            res.status(203).json({ status: "error", data: "No se ha encontrado el usuario con id: "+req.params.id});
+        } else {
+            // También podemos devolver así la información:
+            res.status(200).json({ status: "ok", data: users });
+        }
+    })
+}
+
 module.exports = Controller
