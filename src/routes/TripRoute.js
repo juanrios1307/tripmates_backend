@@ -14,7 +14,7 @@ route.put('/',protectedRoutes.verifyToken,controller.edit)
 route.delete('/',protectedRoutes.verifyToken,controller.delete)
 route.get('/mines/',protectedRoutes.verifyToken,controller.seeMyTrips)
 route.get('/especific/',protectedRoutes.verifyToken,controller.seeEspecificTrip)
-route.get('/',protectedRoutes.verifyToken,controller.seeOtherTrips)
+route.get('/',controller.seeOtherTrips)
 
 
 module.exports =route
