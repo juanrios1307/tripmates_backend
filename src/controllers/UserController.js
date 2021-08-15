@@ -8,7 +8,7 @@ const User=require('../models/User')
 Controller.signIn = async(req,res)=>{
 
     var {email,password,name,phone,city} = req.body
-
+    console.log(req.body)
     if(await User.findOne({email})){
         res.json({
             mensaje:"El correo : "+email+" esta en uso"
