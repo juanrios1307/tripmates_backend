@@ -8,7 +8,7 @@ const User=require('../models/User')
 Controller.signIn = async(req,res)=>{
 
     var {email,password,name,phone,city} = req.body
-    console.log("BODY sign: "+req.body)
+    console.log("BODY sign: "+JSON.stringify(req.body))
     if(await User.findOne({email})){
         res.json({
             mensaje:"El correo : "+email+" esta en uso"
@@ -36,7 +36,7 @@ Controller.signIn = async(req,res)=>{
 Controller.logIn = async(req,res)=>{
 
     const {email, password} =req.body
-    console.log("BODY log: " +req.body)
+    console.log("BODY log: " +JSON.stringify(req.body))
     const user = await User.findOne({email});
 
     if (user && bcrypt.compareSync(password, user.password)) {
