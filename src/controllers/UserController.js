@@ -37,6 +37,8 @@ Controller.logIn = async(req,res)=>{
 
     const {email, password} =req.body
     console.log("BODY log: " +JSON.stringify(req.body))
+    console.log(email)
+
     const user = await User.findOne({email});
 
     if (user && bcrypt.compareSync(password, user.password)) {
