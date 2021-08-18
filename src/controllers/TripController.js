@@ -93,7 +93,7 @@ Controller.seeEspecificTrip = async(req,res)=>{
 Controller.seeOtherTrips = async(req,res)=>{
 
 
-    Trip({}, function (err, trip) {
+    Trip.find({}, function (err, trip) {
         if (err) {
             // Devolvemos el código HTTP 404, de producto no encontrado por su id.
             res.status(203).json({ status: "error", data: "No se ha encontrado el usuario con id: "+req.params.id});

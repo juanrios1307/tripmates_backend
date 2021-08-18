@@ -4,7 +4,7 @@ const User=require('../models/User')
 const Trip = require('../models/Trip')
 
 Controller.createFeed = async(req,res)=>{
-    Trip({}, function (err, trips) {
+    Trip.find({}, function (err, trips) {
         if (err) {
             // Devolvemos el código HTTP 404, de producto no encontrado por su id.
             res.status(203).json({ status: "error", data: "No se ha encontrado el usuario con id: "+req.params.id});
