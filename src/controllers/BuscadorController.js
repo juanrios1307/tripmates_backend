@@ -42,8 +42,8 @@ const getCompatibleTrips= async (trip) =>{
     await Trip.find({$and:[
                 {'to' : trip.to},
                 {$or: [
-                    {'beginDate':{$gte:ISODate(trip.beginDate),$lt:ISODate(trip.finishDate)}},
-                    {$and:[{'beginDate':{$gte:ISODate(trip.beginDate)}},{'finishDate':{$lt:ISODate(trip.beginDate)}}]}
+                    {'beginDate':{$gte:ISODate(trip.beginDate),$lte:ISODate(trip.finishDate)}},
+                    {$and:[{'beginDate':{$gte:ISODate(trip.beginDate)}},{'finishDate':{$lte:ISODate(trip.beginDate)}}]}
                 ]}
 
             ]},
