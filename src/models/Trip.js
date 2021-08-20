@@ -7,7 +7,7 @@ const Trip = mongoose.model('trips',{
     from: {type:String, required:true, unique:true},
     to : {type:String, required:true},
     beginDate:  {type: Date, default: Date.now},
-    finishDate:  {type:String, required:true},
+    finishDate:  {type:Date, required:true},
     Interests:[{type:String}]
 })
 
