@@ -98,14 +98,14 @@ Controller.searchTrips = async(req, res)=>{
             {"from":{$regex :  new RegExp("^"+s+".*",'i' )}},
             {"to":{$regex :  new RegExp("^"+s+".*",'i') }}
 
-        ]},function(err,pets){
+        ]},function(err,trips){
         if (err) {
             // Devolvemos el código HTTP 404, de producto no encontrado por su id.
             res.status(203).json({ status: "error", data: "No se ha encontrado"});
         } else {
 
             // También podemos devolver así la información:
-            res.status(200).json({ status: "ok", data: pets });
+            res.status(200).json({ status: "ok", data: trips });
         }
     }).populate('user')
 }
@@ -125,7 +125,7 @@ Controller.searchUsers = async(req,res)=>{
         } else {
 
             // También podemos devolver así la información:
-            res.status(200).json({ status: "ok", data: pets });
+            res.status(200).json({ status: "ok", data: users });
         }
     })
 
