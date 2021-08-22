@@ -12,50 +12,68 @@ Controller.createFeed = async(req,res)=>{
     //viaje 1 : 20/8 - 25/8 : viaje 2: 22/8 - 29/8
     user = req.decoded.sub
 
-    const trips = getUserTrips(user)
 
-    var users =[]
-    for( var i=0 ; i<trips.length ; i++){
-        await users.append(getCompatibleTrips(trips[i]))
-    }
 
-    await res.status(200).json({ status: "error", data: users});
+    const trips = await getUserTrips(res,user)
 
+    const users = await getTrips(res,trips)
+
+    res.status(200).json({status:'ok',data:users})
 }
 
-const getUserTrips= async (user)=>{
-    await Trip.find({user}, function (err, trips) {
-        if (err) {
-            // Devolvemos el código HTTP 404, de producto no encontrado por su id.
-            res.status(203).json({ status: "error", data: "No se ha encontrado el usuario con id"});
-        } else {
-
-            return trips
-        }
+//Obtiene viajes de un usuario
+const getUserTrips= async (res,user)=>{
+    return new Promise((resolve,reject)=>{
+        Trip.find({user}, function (err, trips) {
+            if (err) {
+                // Devolvemos el código HTTP 404, de producto no encontrado por su id.
+                res.status(203).json({status: "error", data: "No se ha encontrado el usuario con id"});
+            } else {
+                resolve(trips)
+            }
+        })
     })
 }
 
-const getCompatibleTrips= async (trip) =>{
+//
+const getTrips = async(res,trips)=>{
+    return new Promise(async (resolve, reject) => {
+        var users = []
+        console.log(trips.length)
+        for (var i = 0; i < trips.length; i++) {
+            users.push(await getCompatibleTrips(res, trips[i]))
+            console.log("TRIPS:::::::::: "+i+"  ::  "+users)
+        }
+        console.log("GT: " + users)
+        resolve(users)
+    })
+}
 
-    var users=[]
+//obtiene viajes compatibles con otro usuario
+const getCompatibleTrips= async (res,trip) => {
+    return new Promise((resolve, reject) => {
 
-    await Trip.find({$and:[
-                {'to' : trip.to},
-                {$or: [
-                    {'beginDate':{$gte:ISODate(trip.beginDate),$lte:ISODate(trip.finishDate)}},
-                    {$and:[{'beginDate':{$gte:ISODate(trip.beginDate)}},{'finishDate':{$lte:ISODate(trip.beginDate)}}]}
-                ]}
+        Trip.find({
+                $and: [
+                    {'to': trip.to},
+                    {
+                        $or: [
+                            {'beginDate': {$gte: (trip.beginDate), $lte: (trip.finishDate)}}
+                        ]
+                    }
 
-            ]},
-            async function(err, compatibleTrip){
+                ]
+            },
+            async function (err, compatibleTrip) {
                 if (err) {
                     // Devolvemos el código HTTP 404, de producto no encontrado por su id.
-                    res.status(203).json({ status: "error", data: "No se ha encontrado el usuario con id"});
+                    res.status(203).json({status: "error", data: "No se ha encontrado el usuario con id"});
                 } else {
-
-                  return await compatibleTrip.user
+                    console.log("CT: " + compatibleTrip)
+                    resolve(compatibleTrip)
                 }
             })
+    })
 }
 
 
