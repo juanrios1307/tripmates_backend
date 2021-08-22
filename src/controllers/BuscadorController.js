@@ -58,7 +58,9 @@ const getCompatibleTrips= async (res,trip) => {
                     {'to': trip.to},
                     {
                         $or: [
-                            {'beginDate': {$gte: (trip.beginDate), $lte: (trip.finishDate)}}
+                            {'beginDate': {$gte: (trip.beginDate), $lte: (trip.finishDate)}},
+                            {'finishDate': {$gte: (trip.beginDate), $lte: (trip.finishDate)}},
+                            {$and : [{'beginDate': {$lte: (trip.beginDate)}},{'finishDate': {$gte: (trip.beginDate)}}]}
                         ]
                     }
 
