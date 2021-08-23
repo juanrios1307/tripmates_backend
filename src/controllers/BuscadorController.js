@@ -41,7 +41,14 @@ const getTrips = async(res,trips)=>{
         var users = []
         console.log(trips.length)
         for (var i = 0; i < trips.length; i++) {
-            users.push(await getCompatibleTrips(res, trips[i]))
+            const ct=await getCompatibleTrips(res, trips[i])
+
+            if(ct.length > 0 ){
+                for(var j=0; j<ct.length ; j++){
+                    users.push(ct[j])
+                }
+            }
+
             console.log("TRIPS:::::::::: "+i+"  ::  "+users)
         }
         console.log("GT: " + users)
@@ -74,7 +81,7 @@ const getCompatibleTrips= async (res,trip) => {
                     console.log("CT: " + compatibleTrip)
                     resolve(compatibleTrip)
                 }
-            })
+            }).populate('user')
     })
 }
 
