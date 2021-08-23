@@ -10,7 +10,7 @@ const Chat = mongoose.model('chats',{
     Messages:[{
         message: {type: String, required: true},
         date: {type: Date, default: Date.now},
-        emit: {type: String, required: true},
+        transmitter: { type: Schema.ObjectId, ref: 'users' },
         read:{type:Boolean, default:false}
     }]
 
