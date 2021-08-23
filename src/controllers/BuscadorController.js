@@ -76,7 +76,7 @@ const getCompatibleTrips= async (res,trip) => {
                     // Devolvemos el código HTTP 404, de producto no encontrado por su id.
                     res.status(203).json({status: "error", data: err});
                 } else {
-                    console.log("CT: " + compatibleTrip)
+
                     resolve(compatibleTrip)
                 }
             }).populate('user')
