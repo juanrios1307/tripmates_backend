@@ -27,7 +27,7 @@ const getUserTrips= async (res,user)=>{
         Trip.find({user}, function (err, trips) {
             if (err) {
                 // Devolvemos el código HTTP 404, de producto no encontrado por su id.
-                res.status(203).json({status: "error", data: "No se ha encontrado el usuario con id"});
+                res.status(203).json({status: "error", data: "Error user trips"});
             } else {
                 resolve(trips)
             }
@@ -48,10 +48,8 @@ const getTrips = async(res,trips)=>{
                     users.push(ct[j])
                 }
             }
-
-            console.log("TRIPS:::::::::: "+i+"  ::  "+users)
         }
-        console.log("GT: " + users)
+
         resolve(users)
     })
 }
@@ -59,7 +57,7 @@ const getTrips = async(res,trips)=>{
 //obtiene viajes compatibles con otro usuario
 const getCompatibleTrips= async (res,trip) => {
     return new Promise((resolve, reject) => {
-
+        console.log(trip)
         Trip.find({
                 $and: [
                     {'to': trip.to},
@@ -70,13 +68,13 @@ const getCompatibleTrips= async (res,trip) => {
                             {$and : [{'beginDate': {$lte: (trip.beginDate)}},{'finishDate': {$gte: (trip.beginDate)}}]}
                         ]
                     },
-                    {$not : {'id':trip.id}}
+                    {'user':{$ne: trip.user}}
                 ]
             },
             async function (err, compatibleTrip) {
                 if (err) {
                     // Devolvemos el código HTTP 404, de producto no encontrado por su id.
-                    res.status(203).json({status: "error", data: "No se ha encontrado el usuario con id"});
+                    res.status(203).json({status: "error", data: err});
                 } else {
                     console.log("CT: " + compatibleTrip)
                     resolve(compatibleTrip)
