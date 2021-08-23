@@ -9,8 +9,8 @@ route.all('/', function(req, res, next) {
     next()
 });
 
-route.post('/',protectedRoutes.verifyToken,controller.create)
-route.put('/',protectedRoutes.verifyToken,controller.edit)
+route.put('/',protectedRoutes.verifyToken,controller.create)
+route.put('/edit',protectedRoutes.verifyToken,controller.edit)
 route.put('/approve/',protectedRoutes.verifyToken,controller.approve)
 route.get('/mine/',protectedRoutes.verifyToken,controller.readMyRates)
 route.get('/',protectedRoutes.verifyToken,controller.readOtherRates)

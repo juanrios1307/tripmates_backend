@@ -21,7 +21,8 @@ Controller.signIn = async(req,res)=>{
             password,
             name,
             phone,
-            city
+            city,
+            Rating:[]
         })
 
         await user.save()
