@@ -69,8 +69,8 @@ const getCompatibleTrips= async (res,trip) => {
                             {'finishDate': {$gte: (trip.beginDate), $lte: (trip.finishDate)}},
                             {$and : [{'beginDate': {$lte: (trip.beginDate)}},{'finishDate': {$gte: (trip.beginDate)}}]}
                         ]
-                    }
-
+                    },
+                    {$not : {'id':trip._id}}
                 ]
             },
             async function (err, compatibleTrip) {
