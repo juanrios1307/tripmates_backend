@@ -1,6 +1,5 @@
 const Controller = {};
 const Trip = require("../models/Trip");
-const User = require("../models/User");
 
 Controller.create = async (req, res) => {
   const user = req.decoded.sub;
@@ -120,7 +119,7 @@ Controller.seeOtherTrips = async (req, res) => {
       // También podemos devolver así la información:
       res.status(200).json({ status: "ok", data: trip });
     }
-  });
+  }).populate('user');
 };
 
 module.exports = Controller;
