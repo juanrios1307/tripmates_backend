@@ -27,7 +27,7 @@ Controller.signIn = async(req,res)=>{
 
         await user.save()
 
-        res.json({
+        res.status(200).json({
             mensaje:"Viajero registrado, puede iniciar sesión"
         })
 
