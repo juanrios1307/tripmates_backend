@@ -79,7 +79,7 @@ Controller.seeChats = async(req,res)=>{
             res.status(203).json({ status: "error", data: "No se ha encontrado el usuario con id: "+user});
         } else {
             // Devolvemos el código HTTP 200.
-            res.status(200).json({ status: "ok", data: chats});
+            res.status(200).json({ status: "ok", data: chats}).populate('user2').populate('user1');
         }
     });
 }
