@@ -12,16 +12,16 @@ Controller.create = async(req,res)=>{
     const chat=new Chat({
         user1,
         user2,
-        Messages:[]
+        Messages:[{
+            message:"Hola, quiero que conectemos para tu proximo viaje",
+            transmitter:user1,
+            read:false
+        }]
     })
 
     await chat.save()
 
-    res.json({
-        mensaje:"Chat registrado"
-    })
-
-
+    res.status(200).json({ status: "ok", data: "Chat Creado" });
 }
 
 Controller.addMessage = async(req,res)=>{
@@ -36,14 +36,14 @@ Controller.addMessage = async(req,res)=>{
         read:false
     }
 
-    User.update({_id:chat},{$push:{ Messages }} , function (err) {
+    Chat.update({_id:chat},{$push:{ Messages }} , function (err) {
         if (err) {
             //res.send(err);
             // Devolvemos el código HTTP 404, de usuario no encontrado por su id.
-            res.status(203).json({ status: "error", data: "No se ha encontrado el usuario con id: "+user});
+            res.status(203).json({ status: "error", data: "No se ha encontrado el chat "});
         } else {
             // Devolvemos el código HTTP 200.
-            res.status(200).json({ status: "ok", data: "Rating Agregado" });
+            res.status(200).json({ status: "ok", data: "Mensaje Enviado" });
         }
     });
 
