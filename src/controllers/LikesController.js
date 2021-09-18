@@ -10,11 +10,7 @@ Controller.addLike = async(req,res) =>{
 
     const {trip} = req.body
 
-    const Likes ={
-        trip
-    }
-
-    User.update({_id:id},{$push:{ Likes }} , function (err) {
+    User.update({_id:id},{$push:{ Likes:{trip} }} , function (err) {
         if (err) {
             //res.send(err);
             // Devolvemos el código HTTP 404, de usuario no encontrado por su id.
@@ -34,11 +30,7 @@ Controller.deleteLike = async(req,res) =>{
 
     const {trip} = req.body
 
-    const Likes ={
-        trip
-    }
-
-    User.update({_id:id},{$pull:{ Likes }} , function (err) {
+    User.update({_id:id},{$pull:{ Likes:{trip} }} , function (err) {
         if (err) {
             //res.send(err);
             // Devolvemos el código HTTP 404, de usuario no encontrado por su id.
@@ -58,11 +50,7 @@ Controller.addDislike = async(req,res)=>{
 
     const {trip} = req.body
 
-    const Dislikes ={
-        trip
-    }
-
-    User.update({_id:id},{$push:{ Dislikes }} , function (err) {
+    User.update({_id:id},{$push:{ Dislikes:{trip} }} , function (err) {
         if (err) {
             //res.send(err);
             // Devolvemos el código HTTP 404, de usuario no encontrado por su id.
@@ -83,7 +71,7 @@ Controller.deleteDislike = async(req,res) =>{
         trip
     }
 
-    User.update({_id:id},{$pull:{ Dislikes }} , function (err) {
+    User.update({_id:id},{$pull:{ Dislikes:{trip} }} , function (err) {
         if (err) {
             //res.send(err);
             // Devolvemos el código HTTP 404, de usuario no encontrado por su id.
