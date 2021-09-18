@@ -15,12 +15,8 @@ const User = mongoose.model('users',{
         date: {type: Date, default: Date.now()},
         aproved: {type: Boolean}
     }],
-    Likes :[{
-        trip: {type: Schema.Types.ObjectId, ref: 'trips'},
-    }],
-    Dislikes :[{
-        trip: {type: Schema.Types.ObjectId, ref: 'trips'},
-    }]
+    Likes :[{type: Schema.Types.ObjectId, ref: 'trips'}],
+    Dislikes :[{type: Schema.Types.ObjectId, ref: 'trips'}]
 })
 
 module.exports = User

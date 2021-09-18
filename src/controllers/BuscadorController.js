@@ -12,11 +12,9 @@ Controller.createFeed = async(req,res)=>{
     //viaje 1 : 20/8 - 25/8 : viaje 2: 22/8 - 29/8
     user = req.decoded.sub
 
+    const myTrips = await getUserTrips(res,user)
 
-
-    const trips = await getUserTrips(res,user)
-
-    const users = await getTrips(res,trips)
+    const users = await getTrips(res,myTrips)
 
     res.status(200).json({status:'ok',data:users})
 }
@@ -31,7 +29,7 @@ const getUserTrips= async (res,user)=>{
             } else {
                 resolve(trips)
             }
-        })
+        }).populate('user')
     })
 }
 
@@ -68,7 +66,8 @@ const getCompatibleTrips= async (res,trip) => {
                             {$and : [{'beginDate': {$lte: (trip.beginDate)}},{'finishDate': {$gte: (trip.beginDate)}}]}
                         ]
                     },
-                    {'user':{$ne: trip.user}}
+                    {'user':{$ne: trip.user._id}},
+                    {'_id':{$nin : trip.user.Likes}}
                 ]
             },
             async function (err, compatibleTrip) {
