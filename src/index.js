@@ -18,6 +18,7 @@ app.use(cors({origin:true}))
 //Declaracion de rutas para manejo de api
 app.use('/api/',require('./routes/BuscadorRoute'))
 app.use('/api/chat',require('./routes/ChatRoute'))
+app.use('/api/like',require('./routes/LikeRoute'))
 app.use('/api/rate',require('./routes/RateRoute'))
 app.use('/api/trip',require('./routes/TripRoute'))
 app.use('/api/user',require('./routes/UserRoute'))

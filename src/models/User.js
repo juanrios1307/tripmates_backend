@@ -14,6 +14,12 @@ const User = mongoose.model('users',{
         rating: {type: Number, required: true},
         date: {type: Date, default: Date.now()},
         aproved: {type: Boolean}
+    }],
+    Likes :[{
+        trip: {type: Schema.Types.ObjectId, ref: 'trips'},
+    }],
+    Dislikes :[{
+        trip: {type: Schema.Types.ObjectId, ref: 'trips'},
     }]
 })
 
