@@ -66,7 +66,8 @@ const getCompatibleTrips= async (res,trip) => {
                         ]
                     },
                     {'user':{$ne: trip.user._id}},
-                    {'_id':{$nin : trip.user.Likes}}
+                    {'_id':{$nin : trip.user.Likes}},
+                    {'_id':{$nin : trip.user.Dislikes}}
                 ]
             },
             async function (err, compatibleTrip) {
