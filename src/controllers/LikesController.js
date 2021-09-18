@@ -28,14 +28,14 @@ Controller.addLike = async(req,res) =>{
 Controller.getLike = async(req,res) =>{
     const id = req.decoded.sub
 
-    User.findById(id,{Likes:1} , function (err) {
+    User.findById(id,{Likes:1} , function (err,trips) {
         if (err) {
             //res.send(err);
             // Devolvemos el código HTTP 404, de usuario no encontrado por su id.
             res.status(203).json({ status: "error", data: "No se ha encontrado el viaje con id: "});
         } else {
             // Devolvemos el código HTTP 200.
-            res.status(200).json({ status: "ok", data: "Like" });
+            res.status(200).json({ status: "ok", data: trips });
         }
     }).populate('trip');
 
