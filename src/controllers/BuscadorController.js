@@ -37,7 +37,6 @@ const getUserTrips= async (res,user)=>{
 const getTrips = async(res,trips)=>{
     return new Promise(async (resolve, reject) => {
         var users = []
-        console.log(trips.length)
         for (var i = 0; i < trips.length; i++) {
             const ct=await getCompatibleTrips(res, trips[i])
 
