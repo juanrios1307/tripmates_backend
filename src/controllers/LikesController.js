@@ -37,7 +37,7 @@ Controller.getLike = async(req,res) =>{
             // Devolvemos el código HTTP 200.
             res.status(200).json({ status: "ok", data: trips });
         }
-    }).populate('Likes');
+    }).populate('Likes').populate('user');
 
 
 
