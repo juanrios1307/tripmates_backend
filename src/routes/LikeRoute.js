@@ -13,5 +13,6 @@ route.put('/like',protectedRoutes.verifyToken,controller.addLike)
 route.put('/dislike',protectedRoutes.verifyToken,controller.addDislike)
 route.put('/like/delete',protectedRoutes.verifyToken,controller.deleteLike)
 route.put('/dislike/delete',protectedRoutes.verifyToken,controller.deleteDislike)
+route.get('/',protectedRoutes.verifyToken,controller.getLike)
 
 module.exports =route
