@@ -7,7 +7,7 @@ const User=require('../models/User')
 
 Controller.signIn = async(req,res)=>{
 
-    var {email,password,name,phone,city} = req.body
+    var {email,password,name,phone,city,image} = req.body
     console.log("BODY sign: "+JSON.stringify(req.body))
     if(await User.findOne({email})){
         res.json({
@@ -22,7 +22,10 @@ Controller.signIn = async(req,res)=>{
             name,
             phone,
             city,
-            Rating:[]
+            image,
+            Rating:[],
+            Likes:[],
+            Dislikes:[],
         })
 
         await user.save()
