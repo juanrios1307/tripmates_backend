@@ -5,17 +5,17 @@ const User=require('../models/User')
 Controller.create = async(req,res)=>{
 
     const id = req.decoded.sub
-
-    const {user,comment,rating} = req.body
+    const user = req.headers['user']
+    const {comment,rating} = req.body
 
     const Rating ={
-        user,
+        user:id,
         comment,
         rating,
         aproved:false
     }
 
-    User.update({_id:id},{$push:{ Rating }} , function (err) {
+    User.update({_id:user},{$push:{ Rating }} , function (err) {
         if (err) {
             //res.send(err);
             // Devolvemos el código HTTP 404, de usuario no encontrado por su id.
