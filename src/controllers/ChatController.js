@@ -13,8 +13,8 @@ Controller.create = async(req,res)=>{
         user1,
         user2,
         Messages:[{
-            message:"Hola, quiero que conectemos para tu proximo viaje",
-            transmitter:user1,
+            text:"Hola, quiero que conectemos para tu proximo viaje",
+            user:user1,
             read:false
         }]
     })
@@ -26,13 +26,13 @@ Controller.create = async(req,res)=>{
 
 Controller.addMessage = async(req,res)=>{
 
-    const transmitter = req.decoded.sub
+    const user = req.decoded.sub
 
-    const {chat,message} = req.body
+    const {chat,text} = req.body
 
     const Messages ={
-        message,
-        transmitter,
+        text,
+        user,
         read:false
     }
 
@@ -55,7 +55,7 @@ Controller.readMessage = async(req,res)=>{
 
     const {read,chat} = req.body
 
-    Chat.update({_id:chat,"Messages.transmitter":{$ne : id}},{$set:{"Messages.$.read":read}},function (err) {
+    Chat.update({_id:chat,"Messages.user":{$ne : id}},{$set:{"Messages.$.read":read}},function (err) {
         if (err) {
             //res.send(err);
             // Devolvemos el código HTTP 404, de usuario no encontrado por su id.
