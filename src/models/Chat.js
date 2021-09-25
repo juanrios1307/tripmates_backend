@@ -8,9 +8,9 @@ const Chat = mongoose.model('chats',{
     user1: { type: Schema.ObjectId, ref: 'users' },
     user2: { type: Schema.ObjectId, ref: 'users' },
     Messages:[{
-        message: {type: String, required: true},
-        date: {type: Date, default: Date.now},
-        transmitter: { type: Schema.ObjectId, ref: 'users' },
+        text: {type: String, required: true},
+        createAt: {type: Date, default: Date.now},
+        user: { type: Schema.ObjectId, ref: 'users' },
         read:{type:Boolean, default:false}
     }]
 
