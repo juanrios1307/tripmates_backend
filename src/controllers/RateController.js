@@ -79,7 +79,7 @@ Controller.readMyRates = async(req,res)=>{
 
     const id = req.decoded.sub
 
-    User.find({_id:id},{Rating:1},function (err,rating) {
+    User.findById(id,{Rating:1},function (err,rating) {
         if (err) {
             //res.send(err);
             // Devolvemos el código HTTP 404, de usuario no encontrado por su id.
