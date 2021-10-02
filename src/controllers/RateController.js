@@ -69,7 +69,7 @@ Controller.approve = async(req,res)=>{
             res.status(203).json({ status: "error", data: "No se ha encontrado el usuario"});
         } else {
             // Devolvemos el código HTTP 200.
-            res.status(200).json({ status: "ok", data: "Cmentario Aprobado"});
+            res.status(200).json({ status: "ok", data: "Comentario Aprobado: "+aprove});
         }
     });
 
