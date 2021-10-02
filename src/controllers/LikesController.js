@@ -55,7 +55,7 @@ Controller.deleteLike = async(req,res) =>{
             res.status(203).json({ status: "error", data: "No se ha encontrado el viaje con id: "+trip});
         } else {
             // Devolvemos el código HTTP 200.
-            res.status(200).json({ status: "ok", data: "Like" });
+            res.status(200).json({ status: "ok", data: "Favorito Eliminado" });
         }
     });
 
