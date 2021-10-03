@@ -4,7 +4,7 @@ var Schema=mongoose.Schema;
 
 const Trip = mongoose.model('trips',{
     user: { type: Schema.ObjectId, ref: 'users' },
-    from: {type:String, required:true, unique:false},
+    from: {type:String, required:true},
     to : {type:String, required:true},
     beginDate:  {type: Date, default: Date.now},
     finishDate:  {type:Date, required:true},
