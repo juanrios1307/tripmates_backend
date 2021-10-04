@@ -102,7 +102,7 @@ Controller.seeEspecificTrip = async (req, res) => {
       // También podemos devolver así la información:
       res.status(200).json({ status: "ok", data: trip });
     }
-  });
+  }).populate('user');
 };
 
 Controller.seeOtherTrips = async (req, res) => {
