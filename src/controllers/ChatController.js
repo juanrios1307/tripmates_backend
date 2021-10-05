@@ -21,7 +21,7 @@ Controller.create = async(req,res)=>{
 
     await chat.save()
 
-    res.status(200).json({ status: "ok", data: "Chat Creado" });
+    res.status(200).json({ status: "ok", data: "Chat Creado" , id:chat._id});
 }
 
 Controller.addMessage = async(req,res)=>{
