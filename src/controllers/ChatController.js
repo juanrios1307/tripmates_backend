@@ -118,7 +118,7 @@ Controller.searchChat = async (req,res) => {
             res.status(203).json({ status: "error", data: "No se ha encontrado el usuario con id: "+user});
         } else {
             // Devolvemos el código HTTP 200.
-            if(chats !== undefined || chats !== null ){
+            if(chats !== undefined && chats !== null && chats.length>0 ){
                 res.status(200).json({ status: "ok", data: true, id:chats._id});
             }else{
                 res.status(200).json({ status: "ok", data: false});
