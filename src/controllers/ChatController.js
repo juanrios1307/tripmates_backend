@@ -101,4 +101,31 @@ Controller.seeEspecificChat = async(req,res)=>{
 
 }
 
+Controller.searchChat = async (req,res) => {
+
+    const user = req.decoded.sub
+    const profile = req.headers['profile']
+
+    Chat.findOne(
+        {$or:[
+                {$and:[{user1:user},{user2:profile}]},
+                {$and:[{user1:profile},{user2:user}]}
+            ]},
+        function(err,chats){
+        if (err) {
+            //res.send(err);
+            // Devolvemos el código HTTP 404, de usuario no encontrado por su id.
+            res.status(203).json({ status: "error", data: "No se ha encontrado el usuario con id: "+user});
+        } else {
+            // Devolvemos el código HTTP 200.
+            if(chats !== undefined || chats !== null ){
+                res.status(200).json({ status: "ok", data: true, id:chats._id});
+            }else{
+                res.status(200).json({ status: "ok", data: false});
+            }
+
+        }
+    }).populate('user2').populate('user1');
+}
+
 module.exports = Controller

@@ -14,5 +14,6 @@ route.put('/',protectedRoutes.verifyToken,controller.addMessage)
 route.get('/read/',protectedRoutes.verifyToken,controller.readMessage)
 route.get('/see/',protectedRoutes.verifyToken,controller.seeChats)
 route.get('/',protectedRoutes.verifyToken,controller.seeEspecificChat)
+route.get('/search',protectedRoutes.verifyToken,controller.searchChat)
 
 module.exports =route
