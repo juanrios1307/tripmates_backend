@@ -1,138 +1,172 @@
-const Controller={}
+const Controller = {};
 
-const config = require('../config.json');
-const jwt = require('jsonwebtoken');
-const bcrypt = require('bcryptjs');
-const User=require('../models/User')
+const config = require("../config.json");
+const jwt = require("jsonwebtoken");
+const bcrypt = require("bcryptjs");
+const User = require("../models/User");
 
-Controller.signIn = async(req,res)=>{
+Controller.signIn = async (req, res) => {
+  var { email, password, name, phone, city, avatar } = req.body;
+  console.log("BODY sign: " + JSON.stringify(req.body));
+  if (await User.findOne({ email })) {
+    res.json({
+      mensaje: "El correo : " + email + " esta en uso",
+    });
+  } else {
+    password = bcrypt.hashSync(password, 10);
 
-    var {email,password,name,phone,city,avatar} = req.body
-    console.log("BODY sign: "+JSON.stringify(req.body))
-    if(await User.findOne({email})){
-        res.json({
-            mensaje:"El correo : "+email+" esta en uso"
-        })
-    }else{
-        password=bcrypt.hashSync(password,10);
+    const user = new User({
+      email,
+      password,
+      name,
+      phone,
+      city,
+      avatar,
+      Rating: [],
+      Likes: [],
+      Dislikes: [],
+    });
 
-        const user=new User({
-            email,
-            password,
-            name,
-            phone,
-            city,
-            avatar,
-            Rating:[],
-            Likes:[],
-            Dislikes:[],
-        })
+    await user.save();
 
-        await user.save()
+    res.status(200).json({
+      mensaje: "Viajero registrado, puede iniciar sesión",
+    });
+  }
+};
 
-        res.status(200).json({
-            mensaje:"Viajero registrado, puede iniciar sesión"
-        })
+Controller.logIn = async (req, res) => {
+  const { email, password } = req.body;
 
-    }
-}
+  const user = await User.findOne({ email });
 
-Controller.logIn = async(req,res)=>{
+  if (user && bcrypt.compareSync(password, user.password)) {
+    const token = jwt.sign({ sub: user.id }, config.secret, {
+      expiresIn: 8640000,
+    });
 
-    const {email, password} =req.body
+    res.status(200).json({
+      token: token,
+      mensaje: "Sesion Iniciada",
+    });
+  } else {
+    res.status(203).json({ mensaje: "Usuario o contraseña incorrectos" });
+  }
+};
 
-    const user = await User.findOne({email});
+Controller.changePassword = async (req, res) => {
+  const userid = req.decoded.sub;
+  const user = await User.findById(userid);
+  let { oldPassword, newPassword } = req.body;
+  if (user && bcrypt.compareSync(oldPassword, user.password)) {
+    user.password = newPassword;
+    user
+      .save()
+      .then(() =>
+        res.status(200).json({ status: "ok", data: "Datos actualizados" })
+      )
+      .catch((e) => res.status(400).json(e));
+  } else {
+    res.status(203).json({ mensaje: "contraseña incorrecta" });
+  }
+};
 
-    if (user && bcrypt.compareSync(password, user.password)) {
-        const token = jwt.sign({sub: user.id}, config.secret,
-            {expiresIn: 8640000});
+Controller.edit = async (req, res) => {
+  const user = req.decoded.sub;
 
-        res.status(200).json({
-            token:token ,
-            mensaje:"Sesion Iniciada"
+  User.findByIdAndUpdate(user, { $set: req.body }, function (err) {
+    if (err) {
+      //res.send(err);
+      // Devolvemos el código HTTP 404, de usuario no encontrado por su id.
+      res
+        .status(203)
+        .json({
+          status: "error",
+          data: "No se ha encontrado el usuario con id: " + user,
         });
-
-    }else {
-        res.status(203).json({ mensaje: "Usuario o contraseña incorrectos"})
+    } else {
+      // Devolvemos el código HTTP 200.
+      res.status(200).json({ status: "ok", data: "Datos actualizados" });
     }
-}
+  });
+};
 
-Controller.edit = async(req,res)=>{
+Controller.delete = async (req, res) => {
+  const user = req.decoded.sub;
 
-    const user=req.decoded.sub
+  User.findByIdAndRemove(user, function (err, data) {
+    if (err || !data) {
+      //res.send(err);
+      // Devolvemos el código HTTP 404, de producto no encontrado por su id.
+      res
+        .status(203)
+        .json({
+          status: "error",
+          data: "No se ha encontrado el usuario con id: " + user,
+        });
+    } else {
+      res
+        .status(200)
+        .json({
+          status: "ok",
+          data: "Se ha eliminado correctamente el usuario con id: " + user,
+        });
+    }
+  });
+};
 
-    User.findByIdAndUpdate(user, { $set: req.body }, function (err) {
-        if (err) {
-            //res.send(err);
-            // Devolvemos el código HTTP 404, de usuario no encontrado por su id.
-            res.status(203).json({ status: "error", data: "No se ha encontrado el usuario con id: "+user});
-        } else {
-            // Devolvemos el código HTTP 200.
-            res.status(200).json({ status: "ok", data: "Datos actualizados" });
-        }
-    });
+Controller.seeMyProfile = async (req, res) => {
+  const user = req.decoded.sub;
+  User.findById(user, function (err, user) {
+    if (err) {
+      // Devolvemos el código HTTP 404, de producto no encontrado por su id.
+      res
+        .status(203)
+        .json({
+          status: "error",
+          data: "No se ha encontrado el usuario con id: " + req.params.id,
+        });
+    } else {
+      // También podemos devolver así la información:
+      res.status(200).json({ status: "ok", data: user });
+    }
+  });
+};
 
-}
+Controller.seeOtherProfile = async (req, res) => {
+  const user = req.headers["id"];
 
-Controller.delete = async(req,res)=>{
+  User.findById(user, function (err, user) {
+    if (err) {
+      // Devolvemos el código HTTP 404, de producto no encontrado por su id.
+      res
+        .status(203)
+        .json({
+          status: "error",
+          data: "No se ha encontrado el usuario con id: " + req.params.id,
+        });
+    } else {
+      // También podemos devolver así la información:
+      res.status(200).json({ status: "ok", data: user });
+    }
+  });
+};
 
-    const user=req.decoded.sub
+Controller.seeProfiles = async (req, res) => {
+  User.find({}, function (err, users) {
+    if (err) {
+      // Devolvemos el código HTTP 404, de producto no encontrado por su id.
+      res
+        .status(203)
+        .json({
+          status: "error",
+          data: "No se ha encontrado el usuario con id: " + req.params.id,
+        });
+    } else {
+      // También podemos devolver así la información:
+      res.status(200).json({ status: "ok", data: users });
+    }
+  });
+};
 
-    User.findByIdAndRemove(user, function(err, data) {
-        if (err || !data) {
-            //res.send(err);
-            // Devolvemos el código HTTP 404, de producto no encontrado por su id.
-            res.status(203).json({ status: "error", data: "No se ha encontrado el usuario con id: "+user});
-        } else {
-            res.status(200).json({ status: "ok", data: "Se ha eliminado correctamente el usuario con id: "+user});
-
-        }
-    });
-
-}
-
-Controller.seeMyProfile = async(req,res)=>{
-
-    const user =req.decoded.sub
-    User.findById(user, function (err, user) {
-        if (err) {
-            // Devolvemos el código HTTP 404, de producto no encontrado por su id.
-            res.status(203).json({ status: "error", data: "No se ha encontrado el usuario con id: "+req.params.id});
-        } else {
-            // También podemos devolver así la información:
-            res.status(200).json({ status: "ok", data: user });
-        }
-    })
-
-}
-
-Controller.seeOtherProfile = async(req,res)=>{
-
-    const user =req.headers['id']
-
-    User.findById(user, function (err, user) {
-        if (err) {
-            // Devolvemos el código HTTP 404, de producto no encontrado por su id.
-            res.status(203).json({ status: "error", data: "No se ha encontrado el usuario con id: "+req.params.id});
-        } else {
-            // También podemos devolver así la información:
-            res.status(200).json({ status: "ok", data: user });
-        }
-    })
-
-}
-
-Controller.seeProfiles = async(req,res) =>{
-
-    User.find({}, function (err, users) {
-        if (err) {
-            // Devolvemos el código HTTP 404, de producto no encontrado por su id.
-            res.status(203).json({ status: "error", data: "No se ha encontrado el usuario con id: "+req.params.id});
-        } else {
-            // También podemos devolver así la información:
-            res.status(200).json({ status: "ok", data: users });
-        }
-    })
-}
-
-module.exports = Controller
+module.exports = Controller;
