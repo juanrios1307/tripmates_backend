@@ -59,7 +59,7 @@ Controller.changePassword = async (req, res) => {
   const user = await User.findById(userid);
   let { oldPassword, newPassword } = req.body;
   if (user && bcrypt.compareSync(oldPassword, user.password)) {
-    user.password = newPassword;
+    user.password = bcrypt.hashSync(newPassword, 10);
     user
       .save()
       .then(() =>
@@ -78,12 +78,10 @@ Controller.edit = async (req, res) => {
     if (err) {
       //res.send(err);
       // Devolvemos el código HTTP 404, de usuario no encontrado por su id.
-      res
-        .status(203)
-        .json({
-          status: "error",
-          data: "No se ha encontrado el usuario con id: " + user,
-        });
+      res.status(203).json({
+        status: "error",
+        data: "No se ha encontrado el usuario con id: " + user,
+      });
     } else {
       // Devolvemos el código HTTP 200.
       res.status(200).json({ status: "ok", data: "Datos actualizados" });
@@ -98,19 +96,15 @@ Controller.delete = async (req, res) => {
     if (err || !data) {
       //res.send(err);
       // Devolvemos el código HTTP 404, de producto no encontrado por su id.
-      res
-        .status(203)
-        .json({
-          status: "error",
-          data: "No se ha encontrado el usuario con id: " + user,
-        });
+      res.status(203).json({
+        status: "error",
+        data: "No se ha encontrado el usuario con id: " + user,
+      });
     } else {
-      res
-        .status(200)
-        .json({
-          status: "ok",
-          data: "Se ha eliminado correctamente el usuario con id: " + user,
-        });
+      res.status(200).json({
+        status: "ok",
+        data: "Se ha eliminado correctamente el usuario con id: " + user,
+      });
     }
   });
 };
@@ -120,12 +114,10 @@ Controller.seeMyProfile = async (req, res) => {
   User.findById(user, function (err, user) {
     if (err) {
       // Devolvemos el código HTTP 404, de producto no encontrado por su id.
-      res
-        .status(203)
-        .json({
-          status: "error",
-          data: "No se ha encontrado el usuario con id: " + req.params.id,
-        });
+      res.status(203).json({
+        status: "error",
+        data: "No se ha encontrado el usuario con id: " + req.params.id,
+      });
     } else {
       // También podemos devolver así la información:
       res.status(200).json({ status: "ok", data: user });
@@ -139,12 +131,10 @@ Controller.seeOtherProfile = async (req, res) => {
   User.findById(user, function (err, user) {
     if (err) {
       // Devolvemos el código HTTP 404, de producto no encontrado por su id.
-      res
-        .status(203)
-        .json({
-          status: "error",
-          data: "No se ha encontrado el usuario con id: " + req.params.id,
-        });
+      res.status(203).json({
+        status: "error",
+        data: "No se ha encontrado el usuario con id: " + req.params.id,
+      });
     } else {
       // También podemos devolver así la información:
       res.status(200).json({ status: "ok", data: user });
@@ -156,12 +146,10 @@ Controller.seeProfiles = async (req, res) => {
   User.find({}, function (err, users) {
     if (err) {
       // Devolvemos el código HTTP 404, de producto no encontrado por su id.
-      res
-        .status(203)
-        .json({
-          status: "error",
-          data: "No se ha encontrado el usuario con id: " + req.params.id,
-        });
+      res.status(203).json({
+        status: "error",
+        data: "No se ha encontrado el usuario con id: " + req.params.id,
+      });
     } else {
       // También podemos devolver así la información:
       res.status(200).json({ status: "ok", data: users });
