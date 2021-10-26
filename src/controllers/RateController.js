@@ -111,6 +111,12 @@ Controller.readOtherRates = async(req,res)=>{
             // Devolvemos el código HTTP 200.
             res.status(200).json({ status: "ok", data: rating});
         }
+    }).populate({
+        path: 'Rating',
+        populate :{
+            path: 'user',
+            model: 'users'
+        }
     });
 
 }
