@@ -7,7 +7,7 @@ const bodyparser=require('body-parser')
 
 require('./helpers/database')
 
-app.set('Port',5000)
+app.set('Port',3002)
 
 app.use(morgan('dev'))
 app.use(bodyparser.urlencoded({extend:true}))
@@ -24,7 +24,7 @@ app.use('/api/trip',require('./routes/TripRoute'))
 app.use('/api/user',require('./routes/UserRoute'))
 
 //start server
-app.listen(process.env.PORT || 5000,()=>{
+app.listen(process.env.PORT || 3002,()=>{
     console.log('Listen in the port ',process.env.PORT)
 })
 
